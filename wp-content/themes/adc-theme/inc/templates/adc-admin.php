@@ -1,4 +1,7 @@
 <h1>ADC Theme Options</h1>
-<h3 class="title">Manage Options</h3>
-<p>Customize the default WordPress Appearance Options</p>
-<?php bloginfo('name') ?>
+<?php settings_errors(); ?>
+<form method="post" action="options.php">
+    <?php settings_fields('adc-settings-group'); ?>
+    <?php do_settings_sections('adc_options') ?>
+    <?php submit_button(); ?>
+</form>
