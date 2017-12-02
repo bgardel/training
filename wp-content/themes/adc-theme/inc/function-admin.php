@@ -20,8 +20,17 @@ add_action('admin_menu', 'adc_add_admin_page');
 
 function adc_custom_settings() {
     register_setting('adc-settings-group', 'first_name');
+    register_setting( 'adc-settings-group', 'last_name');
+    register_setting( 'adc-settings-group', 'twitter_handler', 'adc_sanitize_twitter_handler');
+    register_setting( 'adc-settings-group', 'facebook_handler');
+    register_setting( 'adc-settings-group', 'gplus_handler');
+
     add_settings_section('adc-sidebar-options', 'Sidebar Options', 'adc_sidebar_options', 'adc_options');
-    add_settings_field('sidebar-name', 'First Name', 'adc_sidebar_name', 'adc_options', 'adc-sidebar-options');
+
+    add_settings_field('sidebar-name', 'Full Name', 'adc_sidebar_name', 'adc_options', 'adc-sidebar-options');
+    add_settings_field('sidebar-twitter', 'Twitter handler', 'adc_sidebar_twitter', 'adc_options', 'adc-sidebar-options');
+    add_settings_field('sidebar-facebook', 'Facebook handler', 'adc_sidebar_facebook', 'adc_options', 'adc-sidebar-options');
+    add_settings_field('sidebar-gplus', 'Google+ handler', 'adc_sidebar_gplus', 'adc_options', 'adc-sidebar-options');
 }
 
 function adc_sidebar_options() {
@@ -30,7 +39,30 @@ function adc_sidebar_options() {
 
 function adc_sidebar_name() {
     $firstName = esc_attr(get_option('first_name'));
-    echo '<input type="text" name="first_name" value="'.$firstName.'" placeholder="First Name" />';
+    $lastName = esc_attr(get_option('last_name'));
+    echo '<input type="text" name="first_name" value="'.$firstName.'" placeholder="First Name" /> <input type="text" name="last_name" value="'.$lastName.'" placeholder="Last Name" />';
+}
+
+function adc_sidebar_twitter() {
+    $twitter = esc_attr(get_option('twitter_handler'));
+    echo '<input type="text" name="twitter_handler" value="'.$twitter.'" placeholder="Twitter handler" /><p class="description">Inpur your Twitte username without the @ character.</p>';
+}
+
+function adc_sidebar_facebook() {
+    $facebook = esc_attr(get_option('facebook_handler'));
+    echo '<input type="text" name="facebook_handler" value="'.$facebook.'" placeholder="Facebook handler" />';
+}
+
+function adc_sidebar_gplus() {
+    $gplus = esc_attr(get_option('gplus_handler'));
+    echo '<input type="text" name="gplus_handler" value="'.$gplus.'" placeholder="Google+ handler" />';
+}
+
+//Sanitization settings
+function adc_sanitize_twitter_handler($input) {
+    $output = sanitize_text_field($input);
+    $output = str_replace('@', '', $output);
+    return $output;
 }
 
 function adc_theme_create_page() {
