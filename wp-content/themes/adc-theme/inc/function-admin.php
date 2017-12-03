@@ -21,6 +21,7 @@ add_action('admin_menu', 'adc_add_admin_page');
 function adc_custom_settings() {
     register_setting('adc-settings-group', 'first_name');
     register_setting( 'adc-settings-group', 'last_name');
+    register_setting( 'adc-settings-group', 'user_description');
     register_setting( 'adc-settings-group', 'twitter_handler', 'adc_sanitize_twitter_handler');
     register_setting( 'adc-settings-group', 'facebook_handler');
     register_setting( 'adc-settings-group', 'gplus_handler');
@@ -28,6 +29,7 @@ function adc_custom_settings() {
     add_settings_section('adc-sidebar-options', 'Sidebar Options', 'adc_sidebar_options', 'adc_options');
 
     add_settings_field('sidebar-name', 'Full Name', 'adc_sidebar_name', 'adc_options', 'adc-sidebar-options');
+    add_settings_field('sidebar-description', 'Description', 'adc_sidebar_description', 'adc_options', 'adc-sidebar-options');
     add_settings_field('sidebar-twitter', 'Twitter handler', 'adc_sidebar_twitter', 'adc_options', 'adc-sidebar-options');
     add_settings_field('sidebar-facebook', 'Facebook handler', 'adc_sidebar_facebook', 'adc_options', 'adc-sidebar-options');
     add_settings_field('sidebar-gplus', 'Google+ handler', 'adc_sidebar_gplus', 'adc_options', 'adc-sidebar-options');
@@ -41,6 +43,11 @@ function adc_sidebar_name() {
     $firstName = esc_attr(get_option('first_name'));
     $lastName = esc_attr(get_option('last_name'));
     echo '<input type="text" name="first_name" value="'.$firstName.'" placeholder="First Name" /> <input type="text" name="last_name" value="'.$lastName.'" placeholder="Last Name" />';
+}
+
+function adc_sidebar_description() {
+    $description = esc_attr(get_option('user_description'));
+    echo '<input type="text" name="user_description" value="'.$description.'" placeholder="Description" /><p class="description">Write something smart.</p>';
 }
 
 function adc_sidebar_twitter() {
